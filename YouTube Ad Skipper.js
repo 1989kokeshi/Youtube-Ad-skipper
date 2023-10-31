@@ -11,31 +11,21 @@
 (function() {
     'use strict';
 
-    const checkElement = (mutationsList, observer) => {
-        for(let mutation of mutationsList) {
-            if (mutation.type === 'childList') {
-                const adElement = document.querySelector("#movie_player > div.video-ads.ytp-ad-module");
-                if (adElement?.hasChildNodes()) {
-                    document.querySelector("#movie_player > div.html5-video-container > video").currentTime = 60;
-                    ["#skip-button\\:5", "#skip-button\\:6", "#skip-button\\:p > span > button"].forEach(selector => {
-                        let element = document.querySelector(selector);
-                        if (element) {
-                            console.log("Element found: " + selector);
-                            console.log(element);
-                            element.click();
-                        }
-                    });
+    const checkElement = () => {
+        const adElement = document.querySelector("#movie_player > div.video-ads.ytp-ad-module");
+        if (adElement?.hasChildNodes()) {
+            document.querySelector("#movie_player > div.html5-video-container > video").currentTime = 600;
+            ["#skip-button\\:5", "#skip-button\\:6", "#skip-button\\:p > span > button"].forEach(selector => {
+                let element = document.querySelector(selector);
+                if (element) {
+                    console.log("Element found: " + selector);
+                    console.log(element);
+                    element.click();
                 }
-            }
+            });
         }
     };
 
-    // MutationObserverを作成し、checkElement関数をコールバックとして設定
-    const observer = new MutationObserver(checkElement);
-
-    // 監視の設定
-    const config = { childList: true, subtree: true };
-
-    // YouTubeのプレーヤー要素を監視開始
-    observer.observe(document.querySelector("#movie_player"), config);
+    // 1秒ごとにcheckElement関数を実行
+    setInterval(checkElement, 1000);
 })();
